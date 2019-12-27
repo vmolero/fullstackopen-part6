@@ -56,6 +56,9 @@ const reducer = (state = initialState, action) => {
       )
       const upvotedAnecdote = upvoteAnecdote(anecdoteToUpvote)
       return createNewState(upvotedAnecdote, filteredState)
+    case actionType.NEW:
+      const newAnecdote = asObject(action.content)
+      return createNewState(newAnecdote, state)
     default:
       return state
   }

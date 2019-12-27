@@ -1,13 +1,21 @@
 const type = {
-  VOTE: 'VOTE'
+  VOTE: 'VOTE',
+  NEW: 'NEW'
 }
 
-const voteAction = ({ id }) => {
+const voteAnecdoteAction = ({ id }) => {
   return {
     type: 'VOTE',
     anecdoteId: id
   }
 }
 
+const newAnecdoteAction = ({ content }) => {
+  return {
+    type: 'NEW',
+    content
+  }
+}
+
 export default type
-export { voteAction }
+export { voteAnecdoteAction, newAnecdoteAction }

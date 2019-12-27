@@ -9,9 +9,9 @@ const App = ({ store }) => {
     <div>
       <h1>Anecdotes (Redux version)</h1>
       <Notification store={store} />
-      <Filter store={store} />
-      <AnecdoteList store={store} />
-      <AnecdoteForm store={store} />
+      <Filter />
+      <AnecdoteList />
+      <AnecdoteForm />
     </div>
   )
 }

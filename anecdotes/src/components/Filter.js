@@ -1,13 +1,13 @@
 import React from 'react'
 import { applyFilterAction, cancelFilterAction } from '../actions/filterAction'
 
-const Filter = ({ store }) => {
+const Filter = ({ applyFilterAction, cancelFilterAction }) => {
   const handleChange = event => {
     const filter = event.target.value
     if (filter.length === 0) {
-      return store.dispatch(cancelFilterAction())
+      cancelFilterAction()
     }
-    return store.dispatch(applyFilterAction({ filter }))
+    return applyFilterAction({ filter })
   }
   const style = {
     marginBottom: 10
@@ -20,4 +20,9 @@ const Filter = ({ store }) => {
   )
 }
 
-export default Filter
+const mapDispatchToProps = {
+  applyFilterAction,
+  cancelFilterAction
+}
+const ConnectedFilter = connect(null, mapDispatchToProps)(Filter)
+export default ConnectedFilter

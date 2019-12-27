@@ -3,21 +3,19 @@ import { useField } from '../hooks'
 import { newAnecdoteAction } from '../actions/anecdoteAction'
 import { showMessageAction, hideMessageAction } from '../actions/messageAction'
 
-const AnecdoteForm = ({ store }) => {
+const AnecdoteForm = ({ showMessageAction, hideMessageAction }) => {
   const anecdoteInput = useField('text')
   const onSubmit = evt => {
     evt.preventDefault()
     const content = anecdoteInput.value
     anecdoteInput.onReset()
-    store.dispatch(newAnecdoteAction({ content }))
-    store.dispatch(
-      showMessageAction({
-        text: `New anecdote '${content}'`,
-        timeoutId: setTimeout(() => {
-          store.dispatch(hideMessageAction())
-        }, 5000)
-      })
-    )
+    newAnecdoteAction({ content })
+    showMessageAction({
+      text: `New anecdote '${content}'`,
+      timeoutId: setTimeout(() => {
+        hideMessageAction()
+      }, 5000)
+    })
   }
 
   return (
@@ -33,4 +31,9 @@ const AnecdoteForm = ({ store }) => {
   )
 }
 
-export default AnecdoteForm
+const mapDispatchToProps = {
+  showMessageAction,
+  hideMessageAction
+}
+const ConnectedAnecdoteForm = connect(null, mapDispatchToProps)(AnecdoteForm)
+export default ConnectedAnecdoteForm

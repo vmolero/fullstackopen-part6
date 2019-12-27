@@ -3,7 +3,7 @@ import Anecdote from './Anecdote'
 import { voteAnecdoteAction } from '../actions/anecdoteAction'
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState()
+  const anecdotes = store.getState().anecdotes
 
   const vote = id => () => {
     return store.dispatch(voteAnecdoteAction({ id }))

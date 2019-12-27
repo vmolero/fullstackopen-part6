@@ -5,14 +5,14 @@ const type = {
 
 const voteAnecdoteAction = ({ id }) => {
   return {
-    type: 'VOTE',
+    type: type.VOTE,
     anecdoteId: id
   }
 }
 
 const newAnecdoteAction = ({ content }) => {
   return {
-    type: 'NEW',
+    type: type.NEW,
     content
   }
 }

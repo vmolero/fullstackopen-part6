@@ -1,12 +1,22 @@
 import React from 'react'
 import Anecdote from './Anecdote'
 import { voteAnecdoteAction } from '../actions/anecdoteAction'
+import { showMessageAction, hideMessageAction } from '../actions/messageAction'
 
 const AnecdoteList = ({ store }) => {
   const anecdotes = store.getState().anecdotes
 
   const vote = id => () => {
-    return store.dispatch(voteAnecdoteAction({ id }))
+    store.dispatch(voteAnecdoteAction({ id }))
+    const votedAnecdote = anecdotes.find(anecdote => anecdote.id === id)
+    store.dispatch(
+      showMessageAction({
+        text: `You voted '${votedAnecdote.content}'`,
+        timeoutId: setTimeout(() => {
+          store.dispatch(hideMessageAction())
+        }, 5000)
+      })
+    )
   }
 
   return (

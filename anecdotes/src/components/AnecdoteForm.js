@@ -1,16 +1,16 @@
 import React from 'react'
 import { useField } from '../hooks'
+import { newAnecdoteAction } from '../actions/anecdoteAction'
 
-const AnecdoteForm = ({ newHandler }) => {
+const AnecdoteForm = ({ store }) => {
   const anecdoteInput = useField('text')
   const onSubmit = evt => {
     evt.preventDefault()
     const content = anecdoteInput.value
     anecdoteInput.onReset()
-    return newHandler({
-      content
-    })
+    return store.dispatch(newAnecdoteAction({ content }))
   }
+
   return (
     <form onSubmit={onSubmit}>
       <div>

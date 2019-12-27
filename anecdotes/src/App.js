@@ -1,6 +1,6 @@
 import React from 'react'
 import AnecdoteList from './components/AnecdoteList'
-import { voteAnecdoteAction, newAnecdoteAction } from './actions/anecdoteAction'
+import { voteAnecdoteAction } from './actions/anecdoteAction'
 import AnecdoteForm from './components/AnecdoteForm'
 
 const App = ({ store }) => {
@@ -10,16 +10,12 @@ const App = ({ store }) => {
     return store.dispatch(voteAnecdoteAction({ id }))
   }
 
-  const newHandler = ({ content }) => {
-    return store.dispatch(newAnecdoteAction({ content }))
-  }
-
   return (
     <div>
       <h2>Anecdotes</h2>
       <AnecdoteList anecdotes={anecdotes} voteHandler={vote} />
       <h2>create new</h2>
-      <AnecdoteForm newHandler={newHandler} />
+      <AnecdoteForm store={store} />
     </div>
   )
 }

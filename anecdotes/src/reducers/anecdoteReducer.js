@@ -38,10 +38,14 @@ function upvoteAnecdote(anecdote) {
 
 function createNewState(newAnecdote, restOfAnecdotes) {
   const newState = [...restOfAnecdotes, newAnecdote]
-  newState.sort((anecdoteA, anecdoteB) =>
+  sortByVotes(newState)
+  return newState
+}
+
+function sortByVotes(anecdotes) {
+  anecdotes.sort((anecdoteA, anecdoteB) =>
     parseInt(anecdoteA.votes) > parseInt(anecdoteB.votes) ? -1 : 1
   )
-  return newState
 }
 
 const reducer = (state = initialState, action) => {

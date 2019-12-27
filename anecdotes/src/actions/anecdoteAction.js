@@ -1,6 +1,7 @@
 const type = {
   VOTE: 'VOTE',
-  NEW: 'NEW'
+  NEW: 'NEW',
+  INIT: 'INIT'
 }
 
 const voteAnecdoteAction = ({ id }) => {
@@ -17,5 +18,12 @@ const newAnecdoteAction = ({ content }) => {
   }
 }
 
+const initializeAnecdotesAction = ({ anecdotes }) => {
+  return {
+    type: type.INIT,
+    anecdotes
+  }
+}
+
 export default type
-export { voteAnecdoteAction, newAnecdoteAction }
+export { voteAnecdoteAction, newAnecdoteAction, initializeAnecdotesAction }

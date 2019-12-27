@@ -1,9 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { useField } from '../hooks'
 import { newAnecdoteAction } from '../actions/anecdoteAction'
 import { showMessageAction, hideMessageAction } from '../actions/messageAction'
 
-const AnecdoteForm = ({ showMessageAction, hideMessageAction }) => {
+const AnecdoteForm = ({
+  showMessageAction,
+  hideMessageAction,
+  newAnecdoteAction
+}) => {
   const anecdoteInput = useField('text')
   const onSubmit = evt => {
     evt.preventDefault()
@@ -33,7 +38,8 @@ const AnecdoteForm = ({ showMessageAction, hideMessageAction }) => {
 
 const mapDispatchToProps = {
   showMessageAction,
-  hideMessageAction
+  hideMessageAction,
+  newAnecdoteAction
 }
 const ConnectedAnecdoteForm = connect(null, mapDispatchToProps)(AnecdoteForm)
 export default ConnectedAnecdoteForm

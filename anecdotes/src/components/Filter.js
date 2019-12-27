@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { applyFilterAction, cancelFilterAction } from '../actions/filterAction'
 
 const Filter = ({ applyFilterAction, cancelFilterAction }) => {

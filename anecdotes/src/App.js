@@ -4,11 +4,11 @@ import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import Filter from './components/Filter'
 
-const App = ({ store }) => {
+const App = () => {
   return (
     <div>
       <h1>Anecdotes (Redux version)</h1>
-      <Notification store={store} />
+      <Notification />
       <Filter />
       <AnecdoteList />
       <AnecdoteForm />

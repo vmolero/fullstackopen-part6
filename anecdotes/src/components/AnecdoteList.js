@@ -1,10 +1,22 @@
 import React from 'react'
 import Anecdote from './Anecdote'
+import { voteAnecdoteAction } from '../actions/anecdoteAction'
 
-const AnecdoteList = ({ anecdotes, voteHandler }) => {
-  return anecdotes.map(anecdote => {
-    return <Anecdote {...anecdote} voteHandler={voteHandler(anecdote.id)} />
-  })
+const AnecdoteList = ({ store }) => {
+  const anecdotes = store.getState()
+
+  const vote = id => () => {
+    return store.dispatch(voteAnecdoteAction({ id }))
+  }
+
+  return (
+    <>
+      <h2>Anecdote list</h2>
+      {anecdotes.map(anecdote => (
+        <Anecdote {...anecdote} voteHandler={vote(anecdote.id)} />
+      ))}
+    </>
+  )
 }
 
 export default AnecdoteList

@@ -1,3 +1,4 @@
+// Find actions in this file
 import actionType from '../actions/anecdoteAction'
 
 const anecdotesAtStart = [

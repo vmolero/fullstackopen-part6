@@ -1,11 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import Anecdote from './Anecdote'
 import { voteAnecdoteAction } from '../actions/anecdoteAction'
 import { showMessageAction, hideMessageAction } from '../actions/messageAction'
 
-const AnecdoteList = ({ store }) => {
-  const { anecdotes, filter } = store.getState()
-
+const AnecdoteList = ({
+  anecdotes,
+  filter,
+  voteAnecdoteAction,
+  showMessageAction,
+  hideMessageAction
+}) => {
   const anecdotesToShow = () => {
     if (filter.length === 0) {
       return anecdotes
@@ -15,16 +20,14 @@ const AnecdoteList = ({ store }) => {
     })
   }
   const vote = id => () => {
-    store.dispatch(voteAnecdoteAction({ id }))
+    voteAnecdoteAction({ id })
     const votedAnecdote = anecdotes.find(anecdote => anecdote.id === id)
-    store.dispatch(
-      showMessageAction({
-        text: `You voted '${votedAnecdote.content}'`,
-        timeoutId: setTimeout(() => {
-          store.dispatch(hideMessageAction())
-        }, 5000)
-      })
-    )
+    showMessageAction({
+      text: `You voted '${votedAnecdote.content}'`,
+      timeoutId: setTimeout(() => {
+        hideMessageAction()
+      }, 5000)
+    })
   }
 
   return (
@@ -40,5 +43,22 @@ const AnecdoteList = ({ store }) => {
     </>
   )
 }
+const mapStateToProps = state => {
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
 
-export default AnecdoteList
+const mapDispatchToProps = {
+  voteAnecdoteAction,
+  showMessageAction,
+  hideMessageAction
+}
+
+const ConnectedAnecdoteList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)
+
+export default ConnectedAnecdoteList

@@ -6,19 +6,11 @@ import { showMessageAction, hideMessageAction } from '../actions/messageAction'
 
 const AnecdoteList = ({
   anecdotes,
-  filter,
+  filteredAnecdotes,
   voteAnecdoteAction,
   showMessageAction,
   hideMessageAction
 }) => {
-  const anecdotesToShow = () => {
-    if (filter.length === 0) {
-      return anecdotes
-    }
-    return anecdotes.filter(anecdote => {
-      return anecdote.content.toLowerCase().indexOf(filter.toLowerCase()) > -1
-    })
-  }
   const vote = id => () => {
     voteAnecdoteAction({ id })
     const votedAnecdote = anecdotes.find(anecdote => anecdote.id === id)
@@ -33,7 +25,7 @@ const AnecdoteList = ({
   return (
     <>
       <h2>Anecdote list</h2>
-      {anecdotesToShow().map(anecdote => (
+      {filteredAnecdotes.map(anecdote => (
         <Anecdote
           key={anecdote.id}
           {...anecdote}
@@ -43,10 +35,20 @@ const AnecdoteList = ({
     </>
   )
 }
+
+const anecdotesToShow = ({ filter, anecdotes }) => {
+  if (filter.length === 0) {
+    return anecdotes
+  }
+  return anecdotes.filter(anecdote => {
+    return anecdote.content.toLowerCase().indexOf(filter.toLowerCase()) > -1
+  })
+}
+
 const mapStateToProps = state => {
   return {
     anecdotes: state.anecdotes,
-    filter: state.filter
+    filteredAnecdotes: anecdotesToShow(state)
   }
 }
 

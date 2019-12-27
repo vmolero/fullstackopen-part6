@@ -4,8 +4,16 @@ import { voteAnecdoteAction } from '../actions/anecdoteAction'
 import { showMessageAction, hideMessageAction } from '../actions/messageAction'
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState().anecdotes
+  const { anecdotes, filter } = store.getState()
 
+  const anecdotesToShow = () => {
+    if (filter.length === 0) {
+      return anecdotes
+    }
+    return anecdotes.filter(anecdote => {
+      return anecdote.content.toLowerCase().indexOf(filter.toLowerCase()) > -1
+    })
+  }
   const vote = id => () => {
     store.dispatch(voteAnecdoteAction({ id }))
     const votedAnecdote = anecdotes.find(anecdote => anecdote.id === id)
@@ -22,8 +30,12 @@ const AnecdoteList = ({ store }) => {
   return (
     <>
       <h2>Anecdote list</h2>
-      {anecdotes.map(anecdote => (
-        <Anecdote {...anecdote} voteHandler={vote(anecdote.id)} />
+      {anecdotesToShow().map(anecdote => (
+        <Anecdote
+          key={anecdote.id}
+          {...anecdote}
+          voteHandler={vote(anecdote.id)}
+        />
       ))}
     </>
   )

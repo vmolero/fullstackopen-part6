@@ -1,3 +1,5 @@
+import actionType from '../actions/anecdoteAction'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -9,21 +11,54 @@ const anecdotesAtStart = [
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
-  return {
+const asObject = anecdote => {
+  return Object.freeze({
     content: anecdote,
     id: getId(),
     votes: 0
-  }
+  })
 }
 
 const initialState = anecdotesAtStart.map(asObject)
+
+function findByIdAndFilterState(anecdoteId, state) {
+  const anecdoteToUpvote = state.find(anecdote => anecdote.id === anecdoteId)
+  const filteredState = state.filter(anecdote => anecdote.id !== anecdoteId)
+
+  return [anecdoteToUpvote, filteredState]
+}
+
+function upvoteAnecdote(anecdote) {
+  const updatedVotes = anecdote.votes + 1
+  return Object.freeze({
+    ...anecdote,
+    votes: updatedVotes
+  })
+}
+
+function createNewState(newAnecdote, restOfAnecdotes) {
+  const newState = [...restOfAnecdotes, newAnecdote]
+  newState.sort((anecdoteA, anecdoteB) =>
+    parseInt(anecdoteA.votes) > parseInt(anecdoteB.votes) ? -1 : 1
+  )
+  return newState
+}
 
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
-  return state
+  switch (action.type) {
+    case actionType.VOTE:
+      const [anecdoteToUpvote, filteredState] = findByIdAndFilterState(
+        action.anecdoteId,
+        state
+      )
+      const upvotedAnecdote = upvoteAnecdote(anecdoteToUpvote)
+      return createNewState(upvotedAnecdote, filteredState)
+    default:
+      return state
+  }
 }
 
 export default reducer

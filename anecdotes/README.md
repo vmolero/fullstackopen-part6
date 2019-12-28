@@ -34,7 +34,10 @@ For the sake of clarity **Reducers** and **Action dispatchers** are separated in
 
 ### Separation of concerns
 
-Concerns are split by using `react-redux` library via `connect()`. Example how to allow dependencies be used as props:
+Concerns are split by using `react-redux` library via `connect()`. Along witn `connect`, `mapStoreToProps` and `mapDispatchToPropd` come into play. The formaer is a function with one agument, being the current "state", that has to be matched against the prop parameters that we are going to use for our component. The latter, returs an object (or in its more complicated form, a function) that maps dispatcher funtions to be used as props, in the same way as before.
+
+
+Example of how `mapStoreToProps` and `mapDispatchToPropd` expose what the component need as props:
 
 src/components/AnecdoteList.js
 

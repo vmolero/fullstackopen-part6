@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import axios from 'axios'
 
 export const useField = type => {
   const [value, setValue] = useState('')
@@ -16,26 +15,4 @@ export const useField = type => {
     onChange,
     onReset
   }
-}
-
-export const useResource = baseUrl => {
-  const [resources, setResources] = useState([])
-
-  const getAll = async () => {
-    const response = await axios.get(baseUrl)
-    setResources(response.data)
-  }
-
-  const create = async payload => {
-    const response = await axios.post(baseUrl, payload)
-    setResources(resources.concat(response.data))
-    return response.data
-  }
-
-  const service = {
-    getAll,
-    create
-  }
-
-  return [resources, service]
 }

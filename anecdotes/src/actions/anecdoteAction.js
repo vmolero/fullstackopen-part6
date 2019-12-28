@@ -13,10 +13,13 @@ const voteAnecdoteAction = ({ id }) => {
   }
 }
 
-const newAnecdoteAction = ({ anecdote }) => {
-  return {
-    type: type.NEW,
-    anecdote
+const newAnecdoteAction = anecdote => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.create(anecdote)
+    dispatch({
+      type: type.NEW,
+      anecdote: newAnecdote
+    })
   }
 }
 
@@ -24,8 +27,8 @@ const initializeAnecdotesAction = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
     dispatch({
-    type: type.INIT,
-    anecdotes
+      type: type.INIT,
+      anecdotes
     })
   }
 }

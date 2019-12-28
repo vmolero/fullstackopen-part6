@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { useField } from '../hooks'
 import { newAnecdoteAction } from '../actions/anecdoteAction'
 import { showMessageAction, hideMessageAction } from '../actions/messageAction'
-import { useResource } from '../hooks/index'
 
 const AnecdoteForm = ({
   showMessageAction,
@@ -11,17 +10,12 @@ const AnecdoteForm = ({
   newAnecdoteAction
 }) => {
   const anecdoteInput = useField('text')
-  // eslint-disable-next-line no-unused-vars
-  const [anecdotes, anecdoteService] = useResource(
-    'http://localhost:3001/anecdotes'
-  )
 
   const onSubmit = async evt => {
     evt.preventDefault()
     const content = anecdoteInput.value
     try {
-      const newAnecdote = await anecdoteService.create({ content, votes: 0 })
-      newAnecdoteAction({ anecdote: newAnecdote })
+      await newAnecdoteAction({ content, votes: 0 })
       anecdoteInput.onReset()
       showMessageAction({
         text: `New anecdote '${content}'`,

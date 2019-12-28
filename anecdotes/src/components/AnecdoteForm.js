@@ -2,13 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { useField } from '../hooks'
 import { newAnecdoteAction } from '../actions/anecdoteAction'
-import { showMessageAction, hideMessageAction } from '../actions/messageAction'
+import { showMessageAction } from '../actions/messageAction'
 
-const AnecdoteForm = ({
-  showMessageAction,
-  hideMessageAction,
-  newAnecdoteAction
-}) => {
+const AnecdoteForm = ({ showMessageAction, newAnecdoteAction }) => {
   const anecdoteInput = useField('text')
 
   const onSubmit = async evt => {
@@ -19,16 +15,12 @@ const AnecdoteForm = ({
       anecdoteInput.onReset()
       showMessageAction({
         text: `New anecdote '${content}'`,
-        timeoutId: setTimeout(() => {
-          hideMessageAction()
-        }, 5000)
+        seconds: 5
       })
     } catch (err) {
       showMessageAction({
         text: `Failed to create anecdote '${content}'`,
-        timeoutId: setTimeout(() => {
-          hideMessageAction()
-        }, 5000)
+        seconds: 5
       })
     }
   }
@@ -48,7 +40,6 @@ const AnecdoteForm = ({
 
 const mapDispatchToProps = {
   showMessageAction,
-  hideMessageAction,
   newAnecdoteAction
 }
 const ConnectedAnecdoteForm = connect(null, mapDispatchToProps)(AnecdoteForm)

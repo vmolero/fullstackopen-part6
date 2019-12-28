@@ -3,11 +3,13 @@ const type = {
   HIDE: 'HIDE'
 }
 
-const showMessageAction = ({ text, timeoutId }) => {
-  return {
-    type: type.SHOW,
-    text,
-    timeoutId
+const showMessageAction = ({ text, seconds }) => {
+  return async dispatch => {
+    dispatch({
+      type: type.SHOW,
+      text,
+      timeoutId: setTimeout(() => dispatch(hideMessageAction()), seconds * 1000)
+    })
   }
 }
 

@@ -2,13 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Anecdote from './Anecdote'
 import { voteAnecdoteAction } from '../actions/anecdoteAction'
-import { showMessageAction, hideMessageAction } from '../actions/messageAction'
+import { showMessageAction } from '../actions/messageAction'
 
 const AnecdoteList = ({
   filteredAnecdotes,
   voteAnecdoteAction,
-  showMessageAction,
-  hideMessageAction
+  showMessageAction
 }) => {
   const vote = anecdoteToUpdate => async () => {
     try {
@@ -16,16 +15,12 @@ const AnecdoteList = ({
 
       showMessageAction({
         text: `You voted '${anecdoteToUpdate.content}'`,
-        timeoutId: setTimeout(() => {
-          hideMessageAction()
-        }, 5000)
+        seconds: 5
       })
     } catch (err) {
       showMessageAction({
         text: `Failed to vote '${anecdoteToUpdate.content}'`,
-        timeoutId: setTimeout(() => {
-          hideMessageAction()
-        }, 5000)
+        seconds: 5
       })
     }
   }
@@ -61,8 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   voteAnecdoteAction,
-  showMessageAction,
-  hideMessageAction
+  showMessageAction
 }
 
 const ConnectedAnecdoteList = connect(

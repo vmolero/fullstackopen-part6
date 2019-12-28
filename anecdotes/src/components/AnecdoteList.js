@@ -5,21 +5,29 @@ import { voteAnecdoteAction } from '../actions/anecdoteAction'
 import { showMessageAction, hideMessageAction } from '../actions/messageAction'
 
 const AnecdoteList = ({
-  anecdotes,
   filteredAnecdotes,
   voteAnecdoteAction,
   showMessageAction,
   hideMessageAction
 }) => {
-  const vote = id => () => {
-    voteAnecdoteAction({ id })
-    const votedAnecdote = anecdotes.find(anecdote => anecdote.id === id)
-    showMessageAction({
-      text: `You voted '${votedAnecdote.content}'`,
-      timeoutId: setTimeout(() => {
-        hideMessageAction()
-      }, 5000)
-    })
+  const vote = anecdoteToUpdate => async () => {
+    try {
+      await voteAnecdoteAction(anecdoteToUpdate)
+
+      showMessageAction({
+        text: `You voted '${anecdoteToUpdate.content}'`,
+        timeoutId: setTimeout(() => {
+          hideMessageAction()
+        }, 5000)
+      })
+    } catch (err) {
+      showMessageAction({
+        text: `Failed to vote '${anecdoteToUpdate.content}'`,
+        timeoutId: setTimeout(() => {
+          hideMessageAction()
+        }, 5000)
+      })
+    }
   }
 
   return (
@@ -29,7 +37,7 @@ const AnecdoteList = ({
         <Anecdote
           key={anecdote.id}
           {...anecdote}
-          voteHandler={vote(anecdote.id)}
+          voteHandler={vote(anecdote)}
         />
       ))}
     </>
@@ -47,7 +55,6 @@ const anecdotesToShow = ({ filter, anecdotes }) => {
 
 const mapStateToProps = state => {
   return {
-    anecdotes: state.anecdotes,
     filteredAnecdotes: anecdotesToShow(state)
   }
 }

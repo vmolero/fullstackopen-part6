@@ -6,10 +6,14 @@ const type = {
   INIT: 'INIT'
 }
 
-const voteAnecdoteAction = ({ id }) => {
-  return {
-    type: type.VOTE,
-    anecdoteId: id
+const voteAnecdoteAction = anecdote => {
+  return async dispatch => {
+    const anecdoteToUpdate = { ...anecdote, votes: anecdote.votes + 1 }
+    const updatedAnecdote = await anecdoteService.update(anecdoteToUpdate)
+    dispatch({
+      type: type.VOTE,
+      anecdote: updatedAnecdote
+    })
   }
 }
 

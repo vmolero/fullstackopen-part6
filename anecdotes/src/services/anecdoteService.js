@@ -13,9 +13,15 @@ function anecdoteService() {
     return response.data
   }
 
+  const update = async payload => {
+    const response = await axios.put(baseUrl + '/' + payload.id, payload)
+    return response.data
+  }
+
   return {
     getAll,
-    create
+    create,
+    update
   }
 }
 

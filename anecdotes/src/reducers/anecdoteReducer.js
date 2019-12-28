@@ -7,21 +7,6 @@ const asObject = anecdote => {
 
 const initialState = []
 
-function findByIdAndFilterState(anecdoteId, state) {
-  const anecdoteToUpvote = state.find(anecdote => anecdote.id === anecdoteId)
-  const filteredState = state.filter(anecdote => anecdote.id !== anecdoteId)
-
-  return [anecdoteToUpvote, filteredState]
-}
-
-function upvoteAnecdote(anecdote) {
-  const updatedVotes = anecdote.votes + 1
-  return Object.freeze({
-    ...anecdote,
-    votes: updatedVotes
-  })
-}
-
 function createNewState(newAnecdote, restOfAnecdotes) {
   const newState = [...restOfAnecdotes, newAnecdote]
   sortByVotes(newState)
@@ -37,12 +22,10 @@ function sortByVotes(anecdotes) {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.VOTE:
-      const [anecdoteToUpvote, filteredState] = findByIdAndFilterState(
-        action.anecdoteId,
-        state
+      const filteredState = state.filter(
+        anecdote => anecdote.id !== action.anecdote.id
       )
-      const upvotedAnecdote = upvoteAnecdote(anecdoteToUpvote)
-      return createNewState(upvotedAnecdote, filteredState)
+      return createNewState(asObject(action.anecdote), filteredState)
     case actionType.NEW:
       const newAnecdote = asObject(action.anecdote)
       return createNewState(newAnecdote, state)

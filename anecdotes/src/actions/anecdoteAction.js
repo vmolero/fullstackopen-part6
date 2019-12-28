@@ -11,10 +11,10 @@ const voteAnecdoteAction = ({ id }) => {
   }
 }
 
-const newAnecdoteAction = ({ content }) => {
+const newAnecdoteAction = ({ anecdote }) => {
   return {
     type: type.NEW,
-    content
+    anecdote
   }
 }
 

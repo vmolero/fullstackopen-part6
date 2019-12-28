@@ -27,25 +27,14 @@ export const useResource = baseUrl => {
   }
 
   const create = async payload => {
-    await axios.post(baseUrl, payload)
-    return await getAll()
-  }
-
-  const update = async blog => {
-    await axios.put(baseUrl + '/' + blog.id, blog)
-    return await getAll()
-  }
-
-  const deleteResource = async blog => {
-    await axios.delete(baseUrl + '/' + blog.id)
-    return await getAll()
+    const response = await axios.post(baseUrl, payload)
+    setResources(resources.concat(response.data))
+    return response.data
   }
 
   const service = {
     getAll,
-    create,
-    delete: deleteResource,
-    update
+    create
   }
 
   return [resources, service]

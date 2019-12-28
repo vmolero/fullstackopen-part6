@@ -44,10 +44,12 @@ const reducer = (state = initialState, action) => {
       const upvotedAnecdote = upvoteAnecdote(anecdoteToUpvote)
       return createNewState(upvotedAnecdote, filteredState)
     case actionType.NEW:
-      const newAnecdote = asObject(action.content)
+      const newAnecdote = asObject(action.anecdote)
       return createNewState(newAnecdote, state)
     case actionType.INIT:
-      return action.anecdotes.map(asObject)
+      const allAnecdotes = action.anecdotes.map(asObject)
+      sortByVotes(allAnecdotes)
+      return allAnecdotes
     default:
       return state
   }

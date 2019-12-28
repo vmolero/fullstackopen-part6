@@ -1,26 +1,15 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import AnecdoteList from './components/AnecdoteList'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import Filter from './components/Filter'
 import { initializeAnecdotesAction } from './actions/anecdoteAction'
-import { useResource } from './hooks/index'
 
 const App = ({ initializeAnecdotesAction }) => {
-  const [anecdotes, anecdoteService] = useResource(
-    'http://localhost:3001/anecdotes'
-  )
-
-  const stableAnecdoteService = useCallback(anecdoteService, [])
-
   useEffect(() => {
-    initializeAnecdotesAction({ anecdotes })
-  }, [anecdotes, initializeAnecdotesAction])
-
-  useEffect(() => {
-    stableAnecdoteService.getAll()
-  }, [stableAnecdoteService])
+    initializeAnecdotesAction()
+  }, [initializeAnecdotesAction])
 
   return (
     <div>
